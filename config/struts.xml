@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<constant name="struts.devMode" value="false"></constant>
+<constant name="struts.custom.i18n.resources" value="message"></constant>
+<constant name="struts.multipart.saveDir" value="d:/dataTemp"></constant>
+<package name="basicstruts2" extends="struts-default">
+	
+	
+	<interceptors >
+		<!-- 註冊攔截器 -->
+		<interceptor name="BOSLoginInterceptor" class="com.feng.bos.web.interceptor.BOSLoginInterceptor">
+			<param name="excludeMethods">login</param>
+		</interceptor>
+		<interceptor-stack name="myStack">
+			<interceptor-ref name="BOSLoginInterceptor"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+	<default-interceptor-ref name="myStack"></default-interceptor-ref>
+	<global-results>
+			<result name="login">/login.jsp</result>
+	</global-results>
+	<action name="page_*_*" >
+	
+		<result type="dispatcher">/WEB-INF/pages/{1}/{2}.jsp</result>
+	</action>
+	<!-- 员工管理 -->
+	<action name="userAction_*" class="userAction" method="{1}">
+	
+		<result name="home" type="redirectAction">
+			<param name="actionName">page_common_index.action</param>
+		</result>
+	</action>
+	<!-- 取派员管理 -->
+	<action name="staffAction_*" class="staffAction" method="{1}">
+		<result name="list">/WEB-INF/pages/base/staff.jsp</result>
+	</action>
+	<!-- 区域管理 -->
+	<action name="regionAction_*" class="regionAction" method="{1}">
+		<result name="list">/WEB-INF/pages/base/region.jsp</result>
+	</action>
+	<!-- 分区管理 -->
+	<action name="subareaAction_*" class="subareaAction" method="{1}">
+		<result name="list">WEB-INF/pages/base/subarea.jsp</result>
+	</action>
+	<!-- 定区管理 -->
+	<action name="decidedzoneAction_*" class="decidedzoneAction" method="{1}">
+		<result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
+	</action>
+	<!-- 业务受理管理 -->
+	<action name="noticebillAction_*" class="noticebillAction" method="{1}">
+		<result name="addUI">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+	</action>
+</package>
+</struts>

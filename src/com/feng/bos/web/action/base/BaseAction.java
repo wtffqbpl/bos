@@ -11,10 +11,12 @@ import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.feng.bos.domain.Region;
 import com.feng.bos.service.DecidedzoneService;
+import com.feng.bos.service.FunctionService;
 import com.feng.bos.service.NoticebillService;
+import com.feng.bos.service.RoleService;
 import com.feng.bos.service.UserService;
+import com.feng.bos.service.WorkordermanageService;
 import com.feng.bos.utils.PageBean;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -29,11 +31,18 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
 	@Resource
 	protected NoticebillService noticebillService;
 	@Resource
+	protected RoleService roleService;
+	@Resource
+	protected FunctionService functionService;
+	@Resource
 	protected UserService userService;
 	@Autowired
 	protected DecidedzoneService decidedzoneService;
 	@Autowired
 	protected CustomerService customerService;
+	@Autowired
+	protected WorkordermanageService workordermanageService;
+	
 	protected PageBean pageBean=new PageBean();
 	DetachedCriteria detachedCriteria =null;
 	public void setRows(int rows) {
@@ -50,7 +59,13 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
 	public BaseAction() {
 		
 		
-		ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
+		ParameterizedType genericSuperclass = null;
+		if(this.getClass().getGenericSuperclass() instanceof ParameterizedType){
+			
+			genericSuperclass=(ParameterizedType) this.getClass().getGenericSuperclass();
+		}else{
+			genericSuperclass=(ParameterizedType) this.getClass().getSuperclass().getGenericSuperclass();
+		}
 		Type[] actualTypeArguments = genericSuperclass.getActualTypeArguments();
 		//获得实体的类型
 		 Class<T> entityClass=(Class<T>) actualTypeArguments[0];

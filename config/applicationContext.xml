@@ -54,4 +54,48 @@
 		<property name="serviceInterface" value="crm.CustomerService"/>
 		<property name="serviceUrl" value="http://localhost:8080/crm/remoting/customer"/>
 	</bean>
+	<!-- 配置一个工厂bean 用于创建shiro框架用到的过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 注入安全管理器 -->
+		<property name="securityManager" ref="securityManager"></property>
+		<!-- 注入当前系统的登录页面-->
+		<property name="loginUrl" value="/login.jsp"></property>
+		<!-- 注入成功页面-->
+		<property name="successUrl" value="/index.jsp"></property>
+		<!-- 注入权限不足提示页面页面-->
+		<property name="unauthorizedUrl" value="/unauthorizedUrl.jsp"></property>
+		<!-- 注入权限不足提示页面页面-->
+		<property name="filterChainDefinitions" >
+			<value>
+				/css/**=anon
+				/images/**=anon
+				/js/**=anon
+				/login.jsp*=anon
+				/validatecode.jsp*=anon
+				/userAction_login.action=anon
+				/page_base_staff.action=perms["staff"]
+				/*=authc
+			</value>
+		</property>
+		
+	</bean>
+	<!-- 注册自定义realm -->
+	<bean id="bosRealm" class="com.feng.bos.shiro.BODSRealm"></bean>
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="bosRealm"></property>
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	<!-- shrio的自动代理 -->
+	<bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+		<!-- 强制使用cglib创建代理对象 -->
+		<property name="proxyTargetClass" value="true"/>
+		
+		
+	</bean>
+	<!-- 注册二级缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache-failsafe.xml"></property>
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"></bean>
 </beans>

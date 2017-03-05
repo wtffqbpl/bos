@@ -33,6 +33,7 @@
 		<result name="home" type="redirectAction">
 			<param name="actionName">page_common_index.action</param>
 		</result>
+		<result name="list">/WEB-INF/pages/admin/userlist.jsp</result>
 	</action>
 	<!-- 取派员管理 -->
 	<action name="staffAction_*" class="staffAction" method="{1}">
@@ -53,6 +54,18 @@
 	<!-- 业务受理管理 -->
 	<action name="noticebillAction_*" class="noticebillAction" method="{1}">
 		<result name="addUI">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+	</action>
+	<!-- 工单管理 -->
+	<action name="workordermanageAction_*" class="workordermanageAction" method="{1}">
+		
+	</action>
+	<!-- 权限管理 -->
+	<action name="functionAction_*" class="functionAction" method="{1}">
+		<result name="list">/WEB-INF/pages/admin/function.jsp</result>
+	</action>
+	<!-- 角色管理 -->
+	<action name="roleAction_*" class="roleAction" method="{1}">
+		<result name="list">/WEB-INF/pages/admin/role.jsp</result>
 	</action>
 </package>
 </struts>

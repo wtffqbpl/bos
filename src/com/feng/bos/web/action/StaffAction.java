@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.context.annotation.Scope;
@@ -56,6 +57,7 @@ public class StaffAction extends BaseAction<Staff> {
 	/**
 	 * 员工删除(逻辑删除)
 	 */
+	@RequiresPermissions(value="staff")
 	public String delete(){
 		staffService.delete(ids);
 		return "list";

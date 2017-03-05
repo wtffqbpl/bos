@@ -42,7 +42,7 @@
 		</div>
 	</div>
     <div region="center" style="overflow:auto;padding:5px;" border="false">
-       <form id="form" method="post" >
+       <form id="form" method="post" action="${pageContext.request.contextPath }/userAction_add.action">
            <table class="table-edit"  width="95%" align="center">
            		<tr class="title"><td colspan="4">基本信息</td></tr>
 	           	<tr><td>用户名:</td><td><input type="text" name="username" id="username" class="easyui-validatebox" required="true" /></td>
@@ -68,12 +68,30 @@
 	           		</select>
 				</td></tr>
 				<tr>
-					<td>联系电话</td>
+					<td>联系电话  </td>
 					<td colspan="3">
 						<input type="text" name="telephone" id="telephone" class="easyui-validatebox" required="true" />
 					</td>
 				</tr>
 	           	<tr><td>备注:</td><td colspan="3"><textarea style="width:80%"></textarea></td></tr>
+				</tr>
+				
+	           	<tr><td>角色选择:</td>
+	           	<td colspan="3" id="tRoles">
+		           	<script type="text/javascript">
+		           		var url="${pageContext.request.contextPath }/roleAction_listajax.action";
+		           		$.post(url,{},function(data){
+		           			for(var i=0;i<data.length;i++){
+		           				var id=data[i].id;
+		           				var name=data[i].name;
+		           				$("#tRoles").append('<input type="checkbox" value="'+id+'" name="roleIds">'+name);
+		           				
+		           			}
+		           		});
+		           	</script>
+	           	
+	           	</td>
+	           	</tr>
            </table>
        </form>
 	</div>
